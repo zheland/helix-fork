@@ -9,8 +9,8 @@ use helix_lsp::{
 use helix_stdx::path::get_relative_path;
 use helix_view::{
     align_view,
-    document::{DocumentOpenError, DocumentSavedEventResult},
-    editor::{ConfigEvent, EditorEvent},
+    document::{DocumentOpenError, DocumentSavedEventResult, Mode},
+    editor::{ConfigEvent, DefaultMode, EditorEvent},
     events::DiagnosticsDidChange,
     graphics::Rect,
     theme,
@@ -243,6 +243,12 @@ impl Application {
             editor
                 .new_file_from_stdin(Action::VerticalSplit)
                 .unwrap_or_else(|_| editor.new_file(Action::VerticalSplit));
+        }
+
+        match config.load().editor.default_mode {
+            DefaultMode::Normal => editor.mode = Mode::Normal,
+            DefaultMode::Select => editor.mode = Mode::Select,
+            DefaultMode::Insert => editor.mode = Mode::Insert,
         }
 
         editor.set_theme(theme);

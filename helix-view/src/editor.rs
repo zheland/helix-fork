@@ -360,6 +360,8 @@ pub struct Config {
     pub end_of_line_diagnostics: DiagnosticFilter,
     // Set to override the default clipboard provider
     pub clipboard_provider: ClipboardProvider,
+    /// Specified the default editor mode. Defaults to `false`.
+    pub default_mode: DefaultMode,
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Eq, PartialOrd, Ord)]
@@ -944,6 +946,15 @@ pub enum PopupBorderConfig {
     Menu,
 }
 
+#[derive(Debug, Default, Copy, Clone, PartialEq, Deserialize, Serialize, Eq, Hash)]
+#[serde(rename_all = "kebab-case")]
+pub enum DefaultMode {
+    #[default]
+    Normal,
+    Select,
+    Insert,
+}
+
 impl Default for Config {
     fn default() -> Self {
         Self {
@@ -1001,6 +1012,7 @@ impl Default for Config {
             inline_diagnostics: InlineDiagnosticsConfig::default(),
             end_of_line_diagnostics: DiagnosticFilter::Disable,
             clipboard_provider: ClipboardProvider::default(),
+            default_mode: DefaultMode::default(),
         }
     }
 }
