@@ -1,3 +1,23 @@
+<h1>
+Helix fork README
+</h1>
+
+This repo is a fork of the project <https://github.com/helix-editor/helix>.
+
+The goal is to refine and tweak the Helix code for myself.
+
+Current progress and plans:
+- [ ] Complete modeless layout support.
+- [ ] Support Local History (VSCode: Timeline, Sublime Text, IntelliJ IDEA,
+      Eclipse: Local History).
+- [ ] Highlight panicking functions like `unwrap`, `expect` and others ideally
+      based on presence of `Panics` section in function or method docs.
+- [ ] ...
+
+<h1>
+Upstream README
+</h1>
+
 <div align="center">
 
 <h1>
