@@ -8,6 +8,8 @@ The goal is to refine and tweak the Helix code for myself.
 
 Current progress and plans:
 - [ ] Complete modeless layout support.
+  - [x] Add config setting `editor.default-mode`. (https://github.com/zheland/helix-fork/commit/49f7423eef16a3a4af96e2f40691c3d9a657cec9).
+  - [ ] ...
 - [ ] Support Local History (VSCode: Timeline, Sublime Text, IntelliJ IDEA,
       Eclipse: Local History).
 - [ ] Highlight panicking functions like `unwrap`, `expect` and others ideally
