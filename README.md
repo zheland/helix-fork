@@ -4,17 +4,30 @@ Helix fork README
 
 This repo is a fork of the project <https://github.com/helix-editor/helix>.
 
-The goal is to refine and tweak the Helix code for myself.
+The goal is to refine and tweak the Helix code to fit my own needs.
+After verification and testing, changes will be proposed to the upstream
+repository.
 
 Current progress and plans:
-- [ ] Complete modeless layout support.
+- [ ] Complete flexible modal/modeless layout support. The idea is to use Ctrl
+      (switched with CapsLock) for both mode switch (on click) and commands in
+      insert mode (while holding).
   - [x] Add config setting `editor.default-mode`. (https://github.com/zheland/helix-fork/commit/49f7423eef16a3a4af96e2f40691c3d9a657cec9).
+  - [ ] Handle modifier keys
+        (`KeyboardEnhancementFlags::REPORT_ALL_KEYS_AS_ESCAPE_CODES`).
+  - [ ] Handle key release events
+        (`KeyboardEnhancementFlags::REPORT_EVENT_TYPES`).
+  - [ ] Support "click" shortcuts that will trigger only if no other keys were
+        pressed between press and release.
   - [ ] ...
-- [ ] Support Local History (VSCode: Timeline, Sublime Text, IntelliJ IDEA,
-      Eclipse: Local History).
+- [ ] Support Local History (similar to Timeline feature from VSCode, or Local 
+      History from Sublime Text, IntelliJ IDEA and Eclipse).
 - [ ] Highlight panicking functions like `unwrap`, `expect` and others ideally
       based on presence of `Panics` section in function or method docs.
 - [ ] ...
+
+Notes:
+- Use `cxt.editor.set_status(format!("{:?}", smth));` for easy debugging.
 
 <h1>
 Upstream README
