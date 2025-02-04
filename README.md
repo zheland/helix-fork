@@ -12,7 +12,8 @@ Current progress and plans:
 - [ ] Complete flexible modal/modeless layout support. The idea is to use Ctrl
       (switched with CapsLock) for both mode switch (on click) and commands in
       insert mode (while holding).
-  - [x] Add config setting `editor.default-mode`. (https://github.com/zheland/helix-fork/commit/49f7423eef16a3a4af96e2f40691c3d9a657cec9).
+  - [x] Add config setting `editor.default-mode`.
+        (https://github.com/zheland/helix-fork/commit/49f7423eef16a3a4af96e2f40691c3d9a657cec9).
   - [ ] Handle modifier keys
         (`KeyboardEnhancementFlags::REPORT_ALL_KEYS_AS_ESCAPE_CODES`).
   - [ ] Handle key release events
@@ -27,7 +28,8 @@ Current progress and plans:
 - [ ] ...
 
 Notes:
-- Use `cxt.editor.set_status(format!("{:?}", smth));` for easy debugging.
+- Add `cxt.editor.set_status(format!("{:?}", event));` to
+  `fn handle_keymap_event` for easy debugging.
 
 <h1>
 Upstream README
