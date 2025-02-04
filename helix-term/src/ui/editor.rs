@@ -28,7 +28,7 @@ use helix_view::{
     editor::{CompleteAction, CursorShapeConfig},
     graphics::{Color, CursorKind, Modifier, Rect, Style},
     input::{KeyEvent, MouseButton, MouseEvent, MouseEventKind},
-    keyboard::{KeyCode, KeyModifiers},
+    keyboard::{KeyCode, KeyEventKind, KeyModifiers},
     Document, Editor, Theme, View,
 };
 use std::{mem::take, num::NonZeroUsize, path::PathBuf, rc::Rc};
@@ -934,16 +934,20 @@ impl EditorView {
             match keyresult {
                 KeymapResult::NotFound => {
                     if !self.on_next_key(OnKeyCallbackKind::Fallback, cx, event) {
-                        if let Some(ch) = event.char() {
+                        if let (Some(ch), KeyEventKind::Press | KeyEventKind::Repeat) =
+                            (event.char(), event.kind)
+                        {
                             commands::insert::insert_char(cx, ch)
                         }
                     }
                 }
                 KeymapResult::Cancelled(pending) => {
                     for ev in pending {
-                        match ev.char() {
-                            Some(ch) => commands::insert::insert_char(cx, ch),
-                            None => {
+                        match (ev.char(), ev.kind) {
+                            (Some(ch), KeyEventKind::Press | KeyEventKind::Repeat) => {
+                                commands::insert::insert_char(cx, ch)
+                            }
+                            _ => {
                                 if let KeymapResult::Matched(command) =
                                     self.keymaps.get(Mode::Insert, ev)
                                 {
@@ -1124,6 +1128,7 @@ impl EditorView {
         let null_key_event = KeyEvent {
             code: KeyCode::Null,
             modifiers: KeyModifiers::empty(),
+            kind: KeyEventKind::Press,
         };
         // dismiss any pending keys
         if let Some((on_next_key, _)) = self.on_next_key.take() {
@@ -1654,6 +1659,7 @@ fn canonicalize_key(key: &mut KeyEvent) {
     if let KeyEvent {
         code: KeyCode::Char(_),
         modifiers: _,
+        kind: KeyEventKind::Press,
     } = key
     {
         key.modifiers.remove(KeyModifiers::SHIFT)

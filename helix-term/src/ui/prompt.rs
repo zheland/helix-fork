@@ -4,7 +4,7 @@ use arc_swap::ArcSwap;
 use helix_core::syntax;
 use helix_view::document::Mode;
 use helix_view::input::KeyEvent;
-use helix_view::keyboard::KeyCode;
+use helix_view::keyboard::{KeyCode, KeyEventKind};
 use std::sync::Arc;
 use std::{borrow::Cow, ops::RangeFrom};
 use tui::buffer::Buffer as Surface;
@@ -583,6 +583,14 @@ impl Component for Prompt {
             compositor.pop();
         })));
 
+        let event = KeyEvent {
+            code: event.code,
+            modifiers: event.modifiers,
+            kind: match event.kind {
+                KeyEventKind::Press | KeyEventKind::Repeat => KeyEventKind::Press,
+                KeyEventKind::Release => KeyEventKind::Release,
+            },
+        };
         match event {
             ctrl!('c') | key!(Esc) => {
                 (self.callback_fn)(cx, &self.line, PromptEvent::Abort);
@@ -715,6 +723,7 @@ impl Component for Prompt {
             KeyEvent {
                 code: KeyCode::Char(c),
                 modifiers: _,
+                kind: KeyEventKind::Press | KeyEventKind::Repeat,
             } => {
                 self.insert_char(c, cx);
                 (self.callback_fn)(cx, &self.line, PromptEvent::Update);

@@ -351,3 +351,36 @@ impl From<crossterm::event::KeyCode> for KeyCode {
         }
     }
 }
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
+pub enum KeyEventKind {
+    Press,
+    Repeat,
+    Release,
+}
+
+#[cfg(feature = "term")]
+impl From<crossterm::event::KeyEventKind> for KeyEventKind {
+    fn from(key_event_kind: crossterm::event::KeyEventKind) -> Self {
+        use crossterm::event::KeyEventKind as CKeyEventKind;
+
+        match key_event_kind {
+            CKeyEventKind::Press => KeyEventKind::Press,
+            CKeyEventKind::Repeat => KeyEventKind::Repeat,
+            CKeyEventKind::Release => KeyEventKind::Release,
+        }
+    }
+}
+
+#[cfg(feature = "term")]
+impl From<KeyEventKind> for crossterm::event::KeyEventKind {
+    fn from(key_event_kind: KeyEventKind) -> Self {
+        use crossterm::event::KeyEventKind as CKeyEventKind;
+
+        match key_event_kind {
+            KeyEventKind::Press => CKeyEventKind::Press,
+            KeyEventKind::Repeat => CKeyEventKind::Repeat,
+            KeyEventKind::Release => CKeyEventKind::Release,
+        }
+    }
+}

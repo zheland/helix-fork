@@ -580,7 +580,7 @@ mod tests {
     #[test]
     fn escaped_keymap() {
         use crate::commands::MappableCommand;
-        use helix_view::input::{KeyCode, KeyEvent, KeyModifiers};
+        use helix_view::input::{KeyCode, KeyEvent, KeyEventKind, KeyModifiers};
 
         let keys = r#"
 "+" = [
@@ -592,6 +592,7 @@ mod tests {
         let key = KeyEvent {
             code: KeyCode::Char('+'),
             modifiers: KeyModifiers::NONE,
+            kind: KeyEventKind::Press,
         };
 
         let expectation = KeyTrie::Node(KeyTrieNode::new(
